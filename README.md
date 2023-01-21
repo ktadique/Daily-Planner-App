@@ -88,5 +88,5 @@ You are required to submit the following for review:
 
 ## Links
 
-- [Live Page](https://ktadique.github.io/Daily-Planner-App/)
-- [Github Repo](https://github.com/ktadique/Daily-Planner-App)
+- [Live Page](https://ktadique.github.io/Daily-Scheduler-App/)
+- [Github Repo](https://github.com/ktadique/Daily-Scheduler-App)
