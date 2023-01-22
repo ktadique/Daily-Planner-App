@@ -39,12 +39,13 @@
 */
 //---------------------------
 
+//global variables
 let timeBlockContainer = $(".container");
+let currentDay = $("#currentDay");
 let timeP = $("<p>");
 
 //Header Date/Time
 function renderDate() {
-  let currentDay = $("#currentDay");
   let todaysDate = moment().format("dddd Do MMMM YYYY,");
   currentDay.text(todaysDate);
 }
@@ -61,6 +62,23 @@ function renderTime() {
   timeP.text(currentTime);
 }
 
+function currentHour() {
+  let currentHour = moment().hour;
+  return currentHour;
+}
+
 renderDate();
 renderTime();
 setInterval(renderTime, 1000);
+
+//time blocks
+
+let workHours = [9, 10, 11, 12, 13, 14, 15, 16, 17];
+
+let timeBlockRow;
+
+for (i = 0; i < workHours.length; i++) {
+  //to-do: find out why i have to reassign everyloop to correctly append
+  timeBlockRow = $('<div class="row"></div>');
+  timeBlockContainer.append(timeBlockRow);
+}
