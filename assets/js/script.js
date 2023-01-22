@@ -81,4 +81,24 @@ for (i = 0; i < workHours.length; i++) {
   //to-do: find out why i have to reassign everyloop to correctly append
   timeBlockRow = $('<div class="row"></div>');
   timeBlockContainer.append(timeBlockRow);
+
+  if (currentHour == workHours[i]) {
+    timeBlockRow.append(
+      $('<div class="col-1">Time</div>'),
+      $('<textarea class="col-10 present description">'),
+      $('<button class="col-1 saveBtn"> 🖫 </button>')
+    );
+  } else if (currentHour < workHours[i]) {
+    timeBlockRow.append(
+      $('<div class="col-1">Time</div>'),
+      $('<textarea class="col-10 future description">'),
+      $('<button class="col-1 saveBtn"> 🖫 </button>')
+    );
+  } else {
+    timeBlockRow.append(
+      $('<div class="col-1">Time</div>'),
+      $('<textarea class="col-10 past description">'),
+      $('<button class="col-1 saveBtn"> 🖫 </button>')
+    );
+  }
 }
