@@ -42,7 +42,7 @@
 //global variables
 let timeBlockContainer = $(".container");
 let currentDay = $("#currentDay");
-let timeP = $("<p>");
+let timePar = $("<p>");
 
 //Header Date/Time
 function renderDate() {
@@ -50,53 +50,64 @@ function renderDate() {
   currentDay.text(todaysDate);
 }
 
-function drawClock() {
+function drawTime() {
   let headerContainer = $(".jumbotron");
-  timeP.addClass("h3");
-  headerContainer.append(timeP);
+  timePar.addClass("h3");
+  headerContainer.append(timePar);
 }
 
-function renderTime() {
-  drawClock();
+function renderClock() {
+  drawTime();
   let currentTime = moment().format("h:mm:ss A");
-  timeP.text(currentTime);
+  timePar.text(currentTime);
 }
 
 function currentHour() {
-  let currentHour = moment().hour;
+  let currentHour = moment().hour();
   return currentHour;
 }
 
 renderDate();
-renderTime();
-setInterval(renderTime, 1000);
+renderClock();
+setInterval(renderClock, 1000);
 
 //time blocks
 
-let workHours = [9, 10, 11, 12, 13, 14, 15, 16, 17];
-
 let timeBlockRow;
+let workHours = [9, 10, 11, 12, 13, 14, 15, 16, 17];
+let convertedWorkHours = [
+  "9 AM",
+  "10 AM",
+  "11 AM",
+  "12 PM",
+  "1 PM",
+  "2 PM",
+  "3 PM",
+  "4 PM",
+  "5 PM",
+];
 
 for (i = 0; i < workHours.length; i++) {
   //to-do: find out why i have to reassign everyloop to correctly append
   timeBlockRow = $('<div class="row"></div>');
   timeBlockContainer.append(timeBlockRow);
 
-  if (currentHour == workHours[i]) {
+  //to-do: align time to center veritcally
+  if (currentHour() == workHours[i]) {
     timeBlockRow.append(
-      $('<div class="col-1">Time</div>'),
+      $(`<div class="col-1 hour text-center">${convertedWorkHours[i]}</div>`),
       $('<textarea class="col-10 present description">'),
       $('<button class="col-1 saveBtn"> 🖫 </button>')
     );
-  } else if (currentHour < workHours[i]) {
+  } else if (currentHour() < workHours[i]) {
     timeBlockRow.append(
-      $('<div class="col-1">Time</div>'),
+      $(`<div class="col-1 hour text-center">${convertedWorkHours[i]}</div>`),
       $('<textarea class="col-10 future description">'),
       $('<button class="col-1 saveBtn"> 🖫 </button>')
     );
   } else {
     timeBlockRow.append(
-      $('<div class="col-1">Time</div>'),
+      $(`<div class="col-1 hour text-center"> ${convertedWorkHours[i]} </div>`),
       $('<textarea class="col-10 past description">'),
       $('<button class="col-1 saveBtn"> 🖫 </button>')
     );
