@@ -23,25 +23,25 @@
     -IF workHour is LESS THAN currentHour, change to ".past" style
     -ELSE IF workHour is MORE THAN currentHour, change to ".future" style
     -ELSE workHour is EQUAL to currentHour, change style to ".present"
+    
+    -Ability to input tasks inside rows:
+    -Event listener on taskBox submit
+    -Create form for each time-block with name/id "taskBox"
 
--Ability to input tasks inside rows:
-  -Event listener on taskBox submit
-  -Create form for each time-block with name/id "taskBox"
-
--Tasks are savable and persist even after refresh
-  - Event listener on saveBtn click
-  - Select form element by its `name` attribute and get its value:
-      - LET textInput = Text Input $('input[name="taskInput"]').val();
+    -Tasks are savable and persist even after refresh
+    - Event listener on saveBtn click
+    - Select form element by its `name` attribute and get its value:
+    - LET textInput = Text Input $('input[name="taskInput"]').val();
     - set taskObject into Local storage:
     - get task object backfrom local storage
-  
-*/
+    
+    */
 //---------------------------
 
 //global variables
 let timeBlockContainer = $(".container");
 let currentDay = $("#currentDay");
-let timePar = $("<p>");
+let timeEl = $("<p>");
 
 //Header Date/Time
 function renderDate() {
@@ -51,14 +51,14 @@ function renderDate() {
 
 function drawTime() {
   let headerContainer = $(".jumbotron");
-  timePar.addClass("h3");
-  headerContainer.append(timePar);
+  timeEl.addClass("h3");
+  headerContainer.append(timeEl);
 }
 
 function renderTime() {
   drawTime();
   let currentTime = moment().format("h:mm:ss A");
-  timePar.text(currentTime);
+  timeEl.text(currentTime);
 }
 
 function currentHour() {
@@ -75,8 +75,7 @@ renderDate();
 setInterval(clock, 1000);
 
 //time blocks
-
-let timeBlockRow;
+//to-do: Make more code DRY
 let workHours = [9, 10, 11, 12, 13, 14, 15, 16, 17];
 let convertedWorkHours = [
   "9 AM",
@@ -92,43 +91,67 @@ let convertedWorkHours = [
 
 for (i = 0; i < workHours.length; i++) {
   //to-do: find out why i have to reassign everyloop to correctly append
-  timeBlockRow = $('<div class="row"></div>');
+  let timeBlockRow = $("<div>").attr("class", "row");
   timeBlockContainer.append(timeBlockRow);
 
-  //to-do: align time to center veritcally
+  //time label
+  let timeLabel = $("<div>").attr("class", "col-1 hour text-center");
+  timeLabel.text(`${convertedWorkHours[i]}`);
+  timeBlockRow.append(timeLabel);
+
+  //text area
+  let taskInput = $("<textarea>").attr("id", "row-" + [i]);
+  timeBlockRow.append(taskInput);
+
+  //button
+  let saveBtn = $("<button>").attr("id", [i]);
+  saveBtn.attr("onClick", "saveTasks(this)");
+  saveBtn.addClass("col-1 saveBtn");
+  timeBlockRow.append(saveBtn);
+
+  // floppy disk icon
+  let floppyDisk = $("<i>").attr("class", "fa-solid fa-floppy-disk");
+  saveBtn.append(floppyDisk);
+
+  //color logic
   if (currentHour() == workHours[i]) {
     //show red
-    timeBlockRow.append(
-      $(`<div class="col-1 hour text-center">${convertedWorkHours[i]}</div>`),
-      $(`<textarea id="row${workHours[i]}" class="col-10 text-dark present">`),
-      $(
-        `<button id="btn${workHours[i]}" class="col-1 saveBtn"><i class="fa-solid fa-floppy-disk">`
-      )
-    );
+    taskInput.addClass("col-10 present");
   } else if (currentHour() < workHours[i]) {
     //show green
-    timeBlockRow.append(
-      $(`<div class="col-1 hour text-center">${convertedWorkHours[i]}</div>`),
-      $(`<textarea id="row${workHours[i]}" class="col-10 text-dark future">`),
-      $(
-        `<button id="btn${workHours[i]}" class="col-1 saveBtn"><i class="fa-solid fa-floppy-disk">`
-      )
-    );
+    taskInput.addClass("col-10 future");
   } else {
     //show gray
-    timeBlockRow.append(
-      $(`<div class="col-1 hour text-center"> ${convertedWorkHours[i]} </div>`),
-      $(`<textarea id="row${workHours[i]}" class="col-10 text-dark past">`),
-      $(
-        `<button id="btn${workHours[i]}" class="col-1 saveBtn"><i class="fa-solid fa-floppy-disk">`
-      )
-    );
+    taskInput.addClass("col-10 past");
   }
+
+  // saveBtn.on("click", function (e) {
+  //   let taskObject = {
+  //     row0: $("#row-0").val(),
+  //     row1: $("#row-1").val(),
+  //     row2: $("#row-2").val(),
+  //     row3: $("#row-3").val(),
+  //     row4: $("#row-4").val(),
+  //     row5: $("#row-5").val(),
+  //     row6: $("#row-6").val(),
+  //     row7: $("#row-7").val(),
+  //     row8: $("#row-8").val(),
+  //   };
+  //   // save event to localStorage
+  //   localStorage.setItem("taskObject", JSON.stringify(taskObject));
+  //   console.log(e.id);
+  // });
 }
 
-//save function
+function saveTasks(elem) {
+  let obj = "#row-" + elem.id;
+  let tasks = "task" + elem.id;
+  localStorage.setItem(tasks, $(obj).val());
+}
 
-function saveTasks() {
+// renderTimeBlocks();
+
+/* function saveTasks() {
   $("#btn9").on("click", function () {
     localStorage.setItem("task9", JSON.stringify($("#row9").val()));
   });
@@ -173,3 +196,4 @@ function recallTasks() {
 }
 
 recallTasks();
+ */
