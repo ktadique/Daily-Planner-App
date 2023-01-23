@@ -33,8 +33,7 @@
   - Select form element by its `name` attribute and get its value:
       - LET textInput = Text Input $('input[name="taskInput"]').val();
     - set taskObject into Local storage:
-    - SAVE textInput into local storage
-    - Stringify and parse back onto current row
+    - get task object backfrom local storage
   
 */
 //---------------------------
@@ -56,7 +55,7 @@ function drawTime() {
   headerContainer.append(timePar);
 }
 
-function renderClock() {
+function renderTime() {
   drawTime();
   let currentTime = moment().format("h:mm:ss A");
   timePar.text(currentTime);
@@ -67,9 +66,13 @@ function currentHour() {
   return currentHour;
 }
 
+function clock() {
+  renderTime();
+  currentHour();
+}
+
 renderDate();
-renderClock();
-setInterval(renderClock, 1000);
+setInterval(clock, 1000);
 
 //time blocks
 
@@ -94,22 +97,65 @@ for (i = 0; i < workHours.length; i++) {
 
   //to-do: align time to center veritcally
   if (currentHour() == workHours[i]) {
+    //show red
     timeBlockRow.append(
       $(`<div class="col-1 hour text-center">${convertedWorkHours[i]}</div>`),
-      $('<textarea class="col-10 present description">'),
-      $('<button class="col-1 saveBtn"> 🖫 </button>')
+      $(
+        `<textarea id="row${workHours[i]}" class="col-10 present description">`
+      ),
+      $('<button class="col-1 saveBtn"><i class="fa-solid fa-floppy-disk">')
     );
   } else if (currentHour() < workHours[i]) {
+    //show green
     timeBlockRow.append(
       $(`<div class="col-1 hour text-center">${convertedWorkHours[i]}</div>`),
-      $('<textarea class="col-10 future description">'),
-      $('<button class="col-1 saveBtn"> 🖫 </button>')
+      $(`<textarea id="row${workHours[i]}" class="col-10 future description">`),
+      $('<button class="col-1 saveBtn"><i class="fa-solid fa-floppy-disk">')
     );
   } else {
+    //show gray
     timeBlockRow.append(
       $(`<div class="col-1 hour text-center"> ${convertedWorkHours[i]} </div>`),
-      $('<textarea class="col-10 past description">'),
-      $('<button class="col-1 saveBtn"> 🖫 </button>')
+      $(`<textarea id="row${workHours[i]}" class="col-10 past description">`),
+      $('<button class="col-1 saveBtn"><i class="fa-solid fa-floppy-disk">')
     );
   }
 }
+
+//save function
+
+/* 
+
+
+let taskObject = {
+  row9: yes,
+  row10: no
+}
+
+savedTasks(){
+  if (item in localstorage) {
+    recallTask();
+  }else{
+    saveTextInput();
+  }
+  
+  recallTask() {
+    // get most recent submission
+    lastSavedTasks = JSON.parse(localstorage.getitem("taskObject"))
+    
+    row9.text(lastSavedTasks.row9)
+
+  }
+
+  saveTextInput() {
+  }
+}
+
+selectRow(e) {
+  let targetRow = e.target.$('button')
+
+}
+
+
+
+*/
