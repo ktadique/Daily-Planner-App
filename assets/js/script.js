@@ -100,62 +100,76 @@ for (i = 0; i < workHours.length; i++) {
     //show red
     timeBlockRow.append(
       $(`<div class="col-1 hour text-center">${convertedWorkHours[i]}</div>`),
+      $(`<textarea id="row${workHours[i]}" class="col-10 text-dark present">`),
       $(
-        `<textarea id="row${workHours[i]}" class="col-10 present description">`
-      ),
-      $('<button class="col-1 saveBtn"><i class="fa-solid fa-floppy-disk">')
+        `<button id="btn${workHours[i]}" class="col-1 saveBtn"><i class="fa-solid fa-floppy-disk">`
+      )
     );
   } else if (currentHour() < workHours[i]) {
     //show green
     timeBlockRow.append(
       $(`<div class="col-1 hour text-center">${convertedWorkHours[i]}</div>`),
-      $(`<textarea id="row${workHours[i]}" class="col-10 future description">`),
-      $('<button class="col-1 saveBtn"><i class="fa-solid fa-floppy-disk">')
+      $(`<textarea id="row${workHours[i]}" class="col-10 text-dark future">`),
+      $(
+        `<button id="btn${workHours[i]}" class="col-1 saveBtn"><i class="fa-solid fa-floppy-disk">`
+      )
     );
   } else {
     //show gray
     timeBlockRow.append(
       $(`<div class="col-1 hour text-center"> ${convertedWorkHours[i]} </div>`),
-      $(`<textarea id="row${workHours[i]}" class="col-10 past description">`),
-      $('<button class="col-1 saveBtn"><i class="fa-solid fa-floppy-disk">')
+      $(`<textarea id="row${workHours[i]}" class="col-10 text-dark past">`),
+      $(
+        `<button id="btn${workHours[i]}" class="col-1 saveBtn"><i class="fa-solid fa-floppy-disk">`
+      )
     );
   }
 }
 
 //save function
 
-/* 
-
-
-let taskObject = {
-  row9: yes,
-  row10: no
+function saveTasks() {
+  $("#btn9").on("click", function () {
+    localStorage.setItem("task9", JSON.stringify($("#row9").val()));
+  });
+  $("#btn10").on("click", function () {
+    localStorage.setItem("task10", JSON.stringify($("#row10").val()));
+  });
+  $("#btn11").on("click", function () {
+    localStorage.setItem("task11", JSON.stringify($("#row11").val()));
+  });
+  $("#btn12").on("click", function () {
+    localStorage.setItem("task12", JSON.stringify($("#row12").val()));
+  });
+  $("#btn13").on("click", function () {
+    localStorage.setItem("task13", JSON.stringify($("#row13").val()));
+  });
+  $("#btn14").on("click", function () {
+    localStorage.setItem("task14", JSON.stringify($("#row14").val()));
+  });
+  $("#btn15").on("click", function () {
+    localStorage.setItem("task15", JSON.stringify($("#row15").val()));
+  });
+  $("#btn16").on("click", function () {
+    localStorage.setItem("task16", JSON.stringify($("#row16").val()));
+  });
+  $("#btn17").on("click", function () {
+    localStorage.setItem("task17", JSON.stringify($("#row17").val()));
+  });
 }
 
-savedTasks(){
-  if (item in localstorage) {
-    recallTask();
-  }else{
-    saveTextInput();
-  }
-  
-  recallTask() {
-    // get most recent submission
-    lastSavedTasks = JSON.parse(localstorage.getitem("taskObject"))
-    
-    row9.text(lastSavedTasks.row9)
+saveTasks();
 
-  }
-
-  saveTextInput() {
-  }
+function recallTasks() {
+  $("#row9").text(JSON.parse(localStorage.getItem("task9")));
+  $("#row10").text(JSON.parse(localStorage.getItem("task10")));
+  $("#row11").text(JSON.parse(localStorage.getItem("task11")));
+  $("#row12").text(JSON.parse(localStorage.getItem("task12")));
+  $("#row13").text(JSON.parse(localStorage.getItem("task13")));
+  $("#row14").text(JSON.parse(localStorage.getItem("task14")));
+  $("#row15").text(JSON.parse(localStorage.getItem("task15")));
+  $("#row16").text(JSON.parse(localStorage.getItem("task16")));
+  $("#row17").text(JSON.parse(localStorage.getItem("task17")));
 }
 
-selectRow(e) {
-  let targetRow = e.target.$('button')
-
-}
-
-
-
-*/
+recallTasks();
