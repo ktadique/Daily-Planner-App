@@ -107,22 +107,12 @@ for (i = 0; i < workHours.length; i++) {
   // floppy disk icon
   let floppyDisk = $("<i>").attr("class", "fa-solid fa-floppy-disk");
   saveBtn.append(floppyDisk);
-
-  /* if (currentHour() == workHours[i]) {
-    //show red
-    taskInput.addClass("col-10 text-dark present");
-  } else if (currentHour() < workHours[i]) {
-    //show green
-    taskInput.addClass("col-10 text-dark future");
-  } else {
-    //show gray
-    taskInput.addClass("col-10 text-dark past");
-  } */
 }
 //color logic
 function colorChange() {
   for (i = 0; i < workHours.length; i++) {
     let taskInput = $("#row-" + i);
+    taskInput.removeClass();
     if (currentHour() == workHours[i]) {
       //show red
       taskInput.addClass("col-10 text-dark present");
