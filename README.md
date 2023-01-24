@@ -1,23 +1,10 @@
-# Third-Party APIs: Work Day Scheduler
+# Module 7 Challenge - Work Day/Daily Scheduler
 
-## Your Task
+## Description
 
-Create a simple calendar application that allows a user to save events for each hour of the day by modifying starter code. This app will run in the browser and feature dynamically updated HTML and CSS powered by jQuery.
-
-You'll need to use the [Moment.js](https://momentjs.com/) library to work with date and time. Be sure to read the documentation carefully and concentrate on using Moment.js in the browser.
-
-## User Story
+This respositorty contains the code for a simple calendar application that allows a user to save events for each hour of the day. This app runs in the browser and feature dynamically updated HTML and CSS powered by jQuery and Moment.JS. Using what I had learned in class and self-study I was able to create an application that fulfil these requirements:
 
 ```md
-AS AN employee with a busy schedule
-I WANT to add important events to a daily planner
-SO THAT I can manage my time effectively
-```
-
-## Acceptance Criteria
-
-The app should:
-
 - Display the current day at the top of the calender when a user opens the planner.
 
 - Present timeblocks for standard business hours when the user scrolls down.
@@ -29,62 +16,47 @@ The app should:
 - Save the event in local storage when the save button is clicked in that timeblock.
 
 - Persist events between refreshes of a page
+```
 
-The following animation demonstrates the application functionality:
+## Table of Contents
 
-![A user clicks on slots on the color-coded calendar and edits the events.](/assets/img/05-third-party-apis-homework-demo.gif)
+- [Description](#description)
+- [How to use](#how-to-use)
+- [Daily Scheduler App Preview](#daily-scheduler-app-preview)
+- [Thoughts and Improvements](#thoughts-and-improvements)
+- [Links](#links)
 
-## Grading Requirements
+## How to use
 
-This homework is graded based on the following criteria:
+To use the Daily Scheduler App:
 
-### Technical Acceptance Criteria: 40%
+```md
+- Naviagte to the [Daily Scheduler App](https://ktadique.github.io/Daily-Scheduler-App/) Website.
 
-- Satisfies all of the above acceptance criteria plus the following:
+- Input tasks in the relevant hour text area.
 
-  - Uses a date utility library to work with date and time
+- Save the row's task by clicking the save button at the end of the row.
 
-### Deployment: 32%
+- Saved tasks will persist after refresh.
+```
 
-- Application deployed at live URL
+## Daily Scheduler App Preview
 
-- Application loads with no errors
+![Daily Scheduler App Preview](./assets/img/05-third-party-apis-homework-demo.gif)
 
-- Application GitHub URL submitted
+## Thoughts and Improvements
 
-- GitHub repo contains application code
+Future changes that I think could really improve this scheduler:
 
-### Application Quality: 15%
+```md
+- Update the appearance of the scheduler itself.
 
-- Application user experience is intuitive and easy to navigate
+- Use a more modern date utility library like Luxon or Day.js.
 
-- Application user interface style is clean and polished
+- Option to load either the next and previous day's tasks .
 
-- Application resembles the mock-up functionality provided in the homework instructions
-
-### Repository Quality: 13%
-
-- Repository has a unique name
-
-- Repository follows best practices for file structure and naming conventions
-
-- Repository follows best practices for class/id naming conventions, indentation, quality comments, etc.
-
-- Repository contains multiple descriptive commit messages
-
-- Repository contains quality README file with description, screenshot, and link to deployed application
-
-## Review
-
-You are required to submit the following for review:
-
-- The URL of the deployed application
-
-- The URL of the GitHub repository, with a unique name and a README describing the project
-
----
-
-© 2022 edX Boot Camps LLC. Confidential and Proprietary. All Rights Reserved.
+- Ability to clear all current tasks from the input boxes when the day is over.
+```
 
 ## Links
 
