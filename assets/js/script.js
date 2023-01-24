@@ -54,25 +54,19 @@ function drawTime() {
   timeEl.addClass("h3");
   headerContainer.append(timeEl);
 }
-
 function renderTime() {
-  drawTime();
   let currentTime = moment().format("h:mm:ss A");
   timeEl.text(currentTime);
 }
 
 function currentHour() {
-  let currentHour = moment().hour();
-  return currentHour;
-}
-
-function clock() {
-  renderTime();
-  currentHour();
+  return moment().hour();
 }
 
 renderDate();
-setInterval(clock, 1000);
+drawTime();
+renderTime();
+setInterval(renderTime, 1000);
 
 //time blocks
 //to-do: Make more code DRY
@@ -100,11 +94,13 @@ for (i = 0; i < workHours.length; i++) {
   timeBlockRow.append(timeLabel);
 
   //text area
-  let taskInput = $("<textarea>").attr("id", "row-" + [i]);
+  let taskInput = $("<textarea>").attr("id", "row-" + i);
   timeBlockRow.append(taskInput);
 
+  $("#row-" + i).text(localStorage.getItem("task-" + i));
+
   //button
-  let saveBtn = $("<button>").attr("id", [i]);
+  let saveBtn = $("<button>").attr("id", i);
   saveBtn.attr("onClick", "saveTasks(this)");
   saveBtn.addClass("col-1 saveBtn");
   timeBlockRow.append(saveBtn);
@@ -113,87 +109,39 @@ for (i = 0; i < workHours.length; i++) {
   let floppyDisk = $("<i>").attr("class", "fa-solid fa-floppy-disk");
   saveBtn.append(floppyDisk);
 
-  //color logic
-  if (currentHour() == workHours[i]) {
+  /* if (currentHour() == workHours[i]) {
     //show red
-    taskInput.addClass("col-10 present");
+    taskInput.addClass("col-10 text-dark present");
   } else if (currentHour() < workHours[i]) {
     //show green
-    taskInput.addClass("col-10 future");
+    taskInput.addClass("col-10 text-dark future");
   } else {
     //show gray
-    taskInput.addClass("col-10 past");
+    taskInput.addClass("col-10 text-dark past");
+  } */
+}
+//color logic
+function colorChange() {
+  for (i = 0; i < workHours.length; i++) {
+    let taskInput = $("#row-" + i);
+    if (currentHour() == workHours[i]) {
+      //show red
+      taskInput.addClass("col-10 text-dark present");
+    } else if (currentHour() < workHours[i]) {
+      //show green
+      taskInput.addClass("col-10 text-dark future");
+    } else {
+      //show gray
+      taskInput.addClass("col-10 text-dark past");
+    }
   }
-
-  // saveBtn.on("click", function (e) {
-  //   let taskObject = {
-  //     row0: $("#row-0").val(),
-  //     row1: $("#row-1").val(),
-  //     row2: $("#row-2").val(),
-  //     row3: $("#row-3").val(),
-  //     row4: $("#row-4").val(),
-  //     row5: $("#row-5").val(),
-  //     row6: $("#row-6").val(),
-  //     row7: $("#row-7").val(),
-  //     row8: $("#row-8").val(),
-  //   };
-  //   // save event to localStorage
-  //   localStorage.setItem("taskObject", JSON.stringify(taskObject));
-  //   console.log(e.id);
-  // });
 }
 
 function saveTasks(elem) {
-  let obj = "#row-" + elem.id;
-  let tasks = "task" + elem.id;
-  localStorage.setItem(tasks, $(obj).val());
+  let taskInputText = "#row-" + elem.id;
+  let tasks = "task-" + elem.id;
+  localStorage.setItem(tasks, $(taskInputText).val());
 }
 
-// renderTimeBlocks();
-
-/* function saveTasks() {
-  $("#btn9").on("click", function () {
-    localStorage.setItem("task9", JSON.stringify($("#row9").val()));
-  });
-  $("#btn10").on("click", function () {
-    localStorage.setItem("task10", JSON.stringify($("#row10").val()));
-  });
-  $("#btn11").on("click", function () {
-    localStorage.setItem("task11", JSON.stringify($("#row11").val()));
-  });
-  $("#btn12").on("click", function () {
-    localStorage.setItem("task12", JSON.stringify($("#row12").val()));
-  });
-  $("#btn13").on("click", function () {
-    localStorage.setItem("task13", JSON.stringify($("#row13").val()));
-  });
-  $("#btn14").on("click", function () {
-    localStorage.setItem("task14", JSON.stringify($("#row14").val()));
-  });
-  $("#btn15").on("click", function () {
-    localStorage.setItem("task15", JSON.stringify($("#row15").val()));
-  });
-  $("#btn16").on("click", function () {
-    localStorage.setItem("task16", JSON.stringify($("#row16").val()));
-  });
-  $("#btn17").on("click", function () {
-    localStorage.setItem("task17", JSON.stringify($("#row17").val()));
-  });
-}
-
-saveTasks();
-
-function recallTasks() {
-  $("#row9").text(JSON.parse(localStorage.getItem("task9")));
-  $("#row10").text(JSON.parse(localStorage.getItem("task10")));
-  $("#row11").text(JSON.parse(localStorage.getItem("task11")));
-  $("#row12").text(JSON.parse(localStorage.getItem("task12")));
-  $("#row13").text(JSON.parse(localStorage.getItem("task13")));
-  $("#row14").text(JSON.parse(localStorage.getItem("task14")));
-  $("#row15").text(JSON.parse(localStorage.getItem("task15")));
-  $("#row16").text(JSON.parse(localStorage.getItem("task16")));
-  $("#row17").text(JSON.parse(localStorage.getItem("task17")));
-}
-
-recallTasks();
- */
+colorChange();
+setInterval(colorChange, 60000);
