@@ -84,7 +84,6 @@ let convertedWorkHours = [
 ];
 
 for (i = 0; i < workHours.length; i++) {
-  //to-do: find out why i have to reassign everyloop to correctly append
   let timeBlockRow = $("<div>").attr("class", "row");
   timeBlockContainer.append(timeBlockRow);
 
