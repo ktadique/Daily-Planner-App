@@ -16,7 +16,7 @@
 -Time blocks for standard 9-5 work day, color coded depending on current hour with save button:
   -Assign timeBlockContainer to $(".container")
   -Select contrainer class and render 9 divs with class ".time-block", dynamically.
-    -Create workHour array (9 - 5, am, pm)
+    -Create workHour array (9 - 17)
     -FOR every workHour
     -  Render and append time-block row
   -Create logic to change appearance of scheduler depending on current time
@@ -25,40 +25,42 @@
     -ELSE workHour is EQUAL to currentHour, change style to ".present"
     
     -Ability to input tasks inside rows:
-    -Event listener on taskBox submit
-    -Create form for each time-block with name/id "taskBox"
+    -Create task for each time-block with name/id "row - [workhours.length]"
 
     -Tasks are savable and persist even after refresh
     - Event listener on saveBtn click
-    - Select form element by its `name` attribute and get its value:
-    - LET textInput = Text Input $('input[name="taskInput"]').val();
-    - set taskObject into Local storage:
-    - get task object backfrom local storage
+    - set written task and task row into local storage using setItem
+    - display tasks onto respective row using getItem
     
     */
 //---------------------------
 
-//global variables
+//Header Date/Time
+
 let timeBlockContainer = $(".container");
 let currentDay = $("#currentDay");
 let timeEl = $("<p>");
 
-//Header Date/Time
+//function to render date followingthis format
 function renderDate() {
   let todaysDate = moment().format("dddd Do MMMM YYYY,");
   currentDay.text(todaysDate);
 }
 
+//creates the time element beneath the date
 function drawTime() {
   let headerContainer = $(".jumbotron");
   timeEl.addClass("h3");
   headerContainer.append(timeEl);
 }
+
+//renders the time to screen following this format
 function renderTime() {
   let currentTime = moment().format("h:mm:ss A");
   timeEl.text(currentTime);
 }
 
+//returns the current hour
 function currentHour() {
   return moment().hour();
 }
@@ -66,10 +68,11 @@ function currentHour() {
 renderDate();
 drawTime();
 renderTime();
+
+//actively updates the time every second
 setInterval(renderTime, 1000);
 
 //time blocks
-//to-do: Make more code DRY
 let workHours = [9, 10, 11, 12, 13, 14, 15, 16, 17];
 let convertedWorkHours = [
   "9 AM",
@@ -83,6 +86,7 @@ let convertedWorkHours = [
   "5 PM",
 ];
 
+//creates the rows based on workHours array length in a loop
 for (i = 0; i < workHours.length; i++) {
   let timeBlockRow = $("<div>").attr("class", "row");
   timeBlockContainer.append(timeBlockRow);
@@ -96,10 +100,12 @@ for (i = 0; i < workHours.length; i++) {
   let taskInput = $("<textarea>").attr("id", "row-" + i);
   timeBlockRow.append(taskInput);
 
+  //gets saved task from local storage and displays it in the text area
   $("#row-" + i).text(localStorage.getItem("task-" + i));
 
   //button
   let saveBtn = $("<button>").attr("id", i);
+  //pass the button through the saveTask function on click
   saveBtn.attr("onClick", "saveTasks(this)");
   saveBtn.addClass("col-1 saveBtn");
   timeBlockRow.append(saveBtn);
@@ -126,6 +132,9 @@ function colorChange() {
   }
 }
 
+//save function
+
+//using the button id, save tasks into local storage
 function saveTasks(elem) {
   let taskInputText = "#row-" + elem.id;
   let tasks = "task-" + elem.id;
@@ -133,4 +142,5 @@ function saveTasks(elem) {
 }
 
 colorChange();
+//runs the colorchange function every minute
 setInterval(colorChange, 60000);
